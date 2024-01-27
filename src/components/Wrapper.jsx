@@ -2,6 +2,7 @@ import MainContainer from './MainContainer'
 import {createBrowserRouter,RouterProvider} from "react-router-dom";
 import Body from "./Body"
 import Browse from "./Browser"
+import Play from "./Play"
 import SignIn from "./auth/SignIn"
 import SignUp from "./auth/SignUp"
 
@@ -28,6 +29,10 @@ const Wrapper = () => {
         {
           path: "/browse",
           element: <Browse  />
+        },
+        {
+          path: "/play",
+          element: <Play  />
         },
         
       ]);

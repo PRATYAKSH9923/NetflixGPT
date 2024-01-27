@@ -13,7 +13,7 @@ const MainContainer = () => {
       }
   },[])
   return (
-    <div style={{height:"100vh", width:"100vw"}} className='flex flex-col bg-sky-100'>
+    <div style={{height:"100vh", width:"100%"}} className='flex flex-col bg-sky-100'>
         <img className='w-full h-full absolute' src={background} />
         <div className='w-full h-full z-10 main-container'>
             <div style={{height:"15%"}} className='w-full flex'>

@@ -6,6 +6,7 @@ import { Link, useNavigate } from "react-router-dom"
 import { setuserInfo } from "../../utils/slices/user"
 import { useState, useEffect } from "react";
 const SignIn = () => {
+    
     var dispatch = useDispatch();
     const navigateto= useNavigate();
     var user = useSelector((store=>{ return store.user.user}));
