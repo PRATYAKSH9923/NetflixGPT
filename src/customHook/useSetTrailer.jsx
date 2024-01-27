@@ -17,6 +17,7 @@ const useSetTrailer = () => {
             trailer[0].original_title= videos?.[0].original_title;
             trailer[0].overview= videos?.[0].overview
         }
+        trailer[0].videoid=trailerdata.id;
         dispatch(setTrailer(trailer))
         
     }

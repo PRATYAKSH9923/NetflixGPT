@@ -20,12 +20,12 @@ const Browser = () => {
     <div style={{height:"100%", width:"100%"}} className='browes-body flex flex-col bg-black'>
         <div className='w-full h-full z-10 main-container '>
             <MovieTrailer/>
-            <div className="absolute z-20 w-full h-full">
+            <div className="absolute w-full h-full">
               <div style={{height:"15%"}} className='w-full flex'>
                 <Head state={"logout"} />
               </div>
               <div style={{height:"70%"}} className='w-full flex'></div>
-              <div style={{height:"15%"}} className='w-full'>
+              <div className='w-full bg-black'>
                 <MovieListing/>
               </div>
             </div>

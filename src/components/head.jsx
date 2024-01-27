@@ -59,7 +59,7 @@ const head = () => {
     </div>
   );
   var logOut = (
-    <div className=" px-10 flex w-full z-10  add-sheild">
+    <div className=" px-10 flex w-full z-40  add-sheild">
       <span className="flex justify-start items-center flex-auto w-10 ">
         <svg
           viewBox="0 0 111 30"

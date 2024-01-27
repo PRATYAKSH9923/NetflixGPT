@@ -14,11 +14,15 @@ const Play = () => {
   let getId = async()=>{
     let data = await fetch(`${Trailer}${videoId}/videos`, API_OPTIONS);
     data= await data.json();
-    data.results.map((data)=>{
-        if( data.type === "Featurette"){
-            setVideoKey(data.key);
+    data.results.map((data1)=>{
+        if( data1.type === "Featurette"){
+            setVideoKey(data1.key);
         }
     })
+    if(videoKey === null){
+        setVideoKey(data.results[0].key);
+    }
+
   }
     useEffect(()=>{
         getId();
@@ -31,7 +35,7 @@ const Play = () => {
               <iframe
                   width="100%"
                   height="100%"
-                  src={`https://www.youtube.com/embed/${videoKey}?loop=1&controls=1&autoplay=1&modestbranding=1&start=5&mute=1`}
+                  src={`https://www.youtube.com/embed/${videoKey}?loop=1&controls=1&autoplay=1&modestbranding=1&mute=1`}
                   title="YouTube video player"
                   frameBorder="0"
                   allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"

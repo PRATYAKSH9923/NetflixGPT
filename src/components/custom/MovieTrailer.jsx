@@ -1,15 +1,16 @@
 import { useSelector } from "react-redux"
+import { Link } from "react-router-dom";
 const MovieTrailer = () => {
     var trailer = useSelector((store=>{ return store.trailer?.trailer?.[0]}));
   return (
     trailer?.key ? (
     <div className=" absolute h-screen w-screen ">
-        <div className="h-full w-[30%] absolute text-white flex justify-center items-center add-sheild-right">
+        <div className="h-[86%] w-[30%] absolute text-white flex justify-center items-center add-sheild-right z-30">
             <div className="w-[80%]">
                 <h5 style={{fontSize:"2.5rem"}} className="font-semibold pb-1">{trailer?.original_title}</h5>
                 <p className="mb-4" style={{fontSize:"small"}}>{trailer?.overview}</p>
                 <div>
-                    <button type="button" className="text-black bg-gradient-to-r bg-white font-medium rounded text-sm px-6 py-2 mr-4">Play</button>
+                    <Link to={`/play?videoId=${trailer.videoid}`}><button type="button" className="text-black bg-gradient-to-r bg-white font-medium rounded text-sm px-6 py-2 mr-4">Play</button></Link>
                     <button type="button" className="text-black bg-gradient-to-r bg-gray-400 font-medium rounded text-sm px-3 py-2">More Info</button>
                 </div>
             </div>
