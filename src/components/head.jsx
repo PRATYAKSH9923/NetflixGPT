@@ -7,7 +7,7 @@ import { onAuthStateChanged } from "firebase/auth";
 import { removeUser } from "../utils/slices/user";
 import { useDispatch } from "react-redux";
 import { Link, useLocation, useNavigate } from "react-router-dom";
-const head = () => {
+const head = (props) => {
   const dispatch = useDispatch();
   const navigateto = useNavigate();
 
@@ -59,7 +59,7 @@ const head = () => {
     </div>
   );
   var logOut = (
-    <div className=" px-10 flex w-full z-40  add-sheild">
+    <div className=" px-10 py-4 flex w-full z-40  add-sheild">
       <span className="flex justify-start items-center flex-auto w-10 ">
         <svg
           viewBox="0 0 111 30"
@@ -78,13 +78,21 @@ const head = () => {
       <span className="flex justify-start items-center flex-auto w-70 "></span>
       <span className="flex justify-end items-center flex-auto w-20">
         {currentEndpoint === "/browse" ? (
+          
+            <><button
+            onClick={()=>{props.SetGpt(!props.Gpt)}}
+            style={{ whiteSpace: "nowrap"}}
+            className="mr-4 bg-purple-500 hover:bg-purple-400 text-white font-bold py-2 px-4 border-b-4 border-purple-700 hover:border-purple-500 rounded text-sm cursor-pointer"
+          >
+            {props.Gpt ? "Browse" : "GPT Search"}
+          </button>
           <button
             onClick={Usersignout}
             style={{ whiteSpace: "nowrap", backgroundColor: "rgb(229,9,20)" }}
             className="bg-red-500 hover:bg-red-400 text-white font-bold py-2 px-4 border-b-4 border-red-700 hover:border-red-500 rounded text-sm"
           >
-            Log out
-          </button>
+              Log out
+            </button></>
         ) : null}
       </span>
     </div>

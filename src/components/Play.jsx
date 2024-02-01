@@ -7,7 +7,7 @@ import { Link } from "react-router-dom";
 const Play = () => {
     const location = useLocation();
   const queryParams = new URLSearchParams(location.search);
-  const[videoKey, setVideoKey] = useState("null");
+  const[videoKey, setVideoKey] = useState(null);
 
   // Get specific query parameter
   var videoId = queryParams.get('videoId');
@@ -17,6 +17,7 @@ const Play = () => {
     data.results.map((data1)=>{
         if( data1.type === "Featurette"){
             setVideoKey(data1.key);
+            return;
         }
     })
     if(videoKey === null){
@@ -29,9 +30,9 @@ const Play = () => {
     },[])
     console.log("&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&", videoId);
   return (
-    videoKey === null ? (<div className=" text-6xl text-red flex justify-center items-center"><span>Video Not Available</span></div>):(
-    <><Link to={"/browse"}><div className="rounded-full absolute bg-white p-3 cusrsor-pointer font-semibold">Back</div></Link>
-    <div className=" w-screen h-screen">
+    videoKey === null ? (<div className=" h-screen w-screen text-6xl text-red flex justify-center items-center"><span className="loader"></span></div>):(
+    <><Link to={"/browse"}><div className="rounded absolute bg-white p-2 m-2 px-4 cusrsor-pointer font-semibold">Back</div></Link>
+    <div className=" w-screen h-screen p-10 bg-black">
               <iframe
                   width="100%"
                   height="100%"
