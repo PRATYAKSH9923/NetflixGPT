@@ -1,2 +1,1 @@
-Live Link
-https://netflix-gpt-pied-six.vercel.app/
+Live Link https://netflix-gpt-pratyaksh9923s-projects.vercel.app/
