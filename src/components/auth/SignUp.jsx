@@ -17,6 +17,12 @@ const SignUp = () => {
     },[])
     var emailid = useSelector((store=>{ return store.userinfo.emailid}));
     const [ loader , setLoader] = useState(false);
+    const [ showerror , setShowerror] = useState(false);
+    const [ errorMessage , setErrorMessage] = useState("Required");
+    var showError = message =>{
+        setShowerror(true);
+        setErrorMessage(message);
+    }
     const validate = values => {
         if (!values.username) {
           errors.username = 'Required';
@@ -53,6 +59,7 @@ const SignUp = () => {
       });
     const errors = {};
     const SignUpWithInfo = values=>{
+        setShowerror(false);
         createUserWithEmailAndPassword(Auth, values.email, values.password)
         .then((userCredential) => {
             console.log(userCredential);
@@ -62,7 +69,9 @@ const SignUp = () => {
         .catch((error) => {
             setLoader(false);
             if(error.code === "auth/email-already-in-use"){
-                errors.email = 'Email Id Exist';
+                showError("Email ID exists")
+            }else{
+                showError(error.code);
             }
         });
     }
@@ -121,6 +130,7 @@ const SignUp = () => {
                             />
                             {formik.errors.password ? <div className=" text-red-700 text-sm font-bold w-full">{formik.errors.password}</div> : null}
                         </div>
+                        {showerror ? (<span className="px-2" style={{color:"rgb(229, 9, 20)"}}>{errorMessage}</span>):""}
                         <div className="py-4 flex justify-center items-center">
                             <button type="submit" style={{ whiteSpace: "nowrap", backgroundColor:"rgb(229,9,20)",width: "100%" }} className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">{loader ? (<span className="loader"></span>):("Sign Up")}</button>
                         </div>
