@@ -9,6 +9,13 @@ const SignIn = () => {
     
     var dispatch = useDispatch();
     const navigateto= useNavigate();
+    const [ loader , setLoader] = useState(false);
+    const [ showerror , setShowerror] = useState(false);
+    const [ errorMessage , setErrorMessage] = useState("Required");
+    var showError = message =>{
+        setShowerror(true);
+        setErrorMessage(message);
+    }
     var user = useSelector((store=>{ return store.user.user}));
     useEffect(()=>{
         if(user !== null){
@@ -21,22 +28,29 @@ const SignIn = () => {
             // Regular expression for validating an Email
             const emailRegex = /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$/i;
             if(!emailRegex.test(email)){
+                showError("Please enter Valid email");
                 return false
             }
-            return password.length >= 8;
+            return true;
     }
     var SigninToBrowsePage = ()=>{
         if(valiadteForm()){
-    signInWithEmailAndPassword(Auth, email, password)
-    .then((userCredential) => {
-    dispatch(setuserInfo(userCredential));
-    localStorage.setItem("tkId", JSON.stringify(userCredential.user.accessToken));
-    console.log("userCredential:----------",userCredential)
-    navigateto("/browse")
-  })
-  .catch((error) => {
-    console.log(error.code);
-  });
+            setLoader(true);
+            signInWithEmailAndPassword(Auth, email, password)
+            .then((userCredential) => {
+            setLoader(false);
+            dispatch(setuserInfo(userCredential));
+            localStorage.setItem("tkId", JSON.stringify(userCredential.user.accessToken));
+            navigateto("/browse")
+        })
+        .catch((error) => {
+            if(error.code === "auth/invalid-credential"){
+                showError("Incorrect Username or Password");
+            }else{
+                showError(error.code);
+            }
+            setLoader(false);
+        });
 
         }
     }
@@ -47,14 +61,15 @@ const SignIn = () => {
             <div className="py-4 flex justify-center items-center">
                 <input
                     autoComplete="off"
-                    onChange={(e)=>{setEmail(e.target.value)}}
+                    onChange={(e)=>{setEmail(e.target.value);}}
                     style={{ height: "3rem" }}
-                    type="text"
+                    type="email"
                     name="signInEmail"
                     value={email}
                     className=" text-white mx-2 peer block min-h-[auto] w-full rounded border bg-transparent px-3 py-[0.32rem] leading-[1.6]  transition-all duration-200 ease-linear focus:placeholder:opacity-100 peer-focus:text-primary  motion-reduce:transition-none dark:text-neutral-200 dark:placeholder:text-neutral-200 dark:peer-focus:text-primary "
                     id="exampleFormControlInput1"
                     placeholder="E-mail" 
+                    required
                 />
             </div>
             <div className="py-4 flex justify-center items-center">
@@ -68,10 +83,12 @@ const SignIn = () => {
                     className=" text-white mx-2 peer block min-h-[auto] w-full rounded border bg-transparent px-3 py-[0.32rem] leading-[1.6]  transition-all duration-200 ease-linear focus:placeholder:opacity-100 peer-focus:text-primary  motion-reduce:transition-none dark:text-neutral-200 dark:placeholder:text-neutral-200 dark:peer-focus:text-primary "
                     id="exampleFormControlInput1"
                     placeholder="Password" 
+                    required
                 />
             </div>
+            {showerror ? (<span className="px-2" style={{color:"rgb(229, 9, 20)"}}>{errorMessage}</span>):""}
             <div className="py-4 flex justify-center items-center">
-                <button onClick={SigninToBrowsePage} style={{ whiteSpace: "nowrap", backgroundColor:"rgb(229,9,20)",width: "100%" }} className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">Sign In</button>   
+                <button onClick={SigninToBrowsePage} style={{ whiteSpace: "nowrap", backgroundColor:"rgb(229,9,20)",width: "100%" }} className="bg-blue-500 hover:bg-blue-700 cursor-pointer text-white font-bold py-2 px-4 rounded">{loader ? (<span className="loader"></span>):("Sign In")}</button>   
             </div>
             <span className="text-white">New to Netflix? <Link to={"/"} className="cursor-pointer font-bold hover:underline">Sign up now.</Link></span>
             

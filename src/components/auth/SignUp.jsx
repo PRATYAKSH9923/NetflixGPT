@@ -2,7 +2,7 @@
 /* eslint-disable react-hooks/rules-of-hooks */
 import { Link, useNavigate } from "react-router-dom";
 import { useSelector } from "react-redux";
-import {createUserWithEmailAndPassword } from "firebase/auth";
+import { createUserWithEmailAndPassword } from "firebase/auth";
 import { Auth} from "../../utils/firebase";
 // import { useState } from "react";
 import { useFormik } from 'formik';
@@ -26,7 +26,7 @@ const SignUp = () => {
       
         if (!values.password) {
             errors.password = 'Required';
-        } else if (/^(?=.*[A-Z].*[A-Z])(?=.*[!@#$&*])(?=.*[0-9].*[0-9])(?=.*[a-z].*[a-z].*[a-z]).{8}$/.test(values.password)) {
+        } else if (!/^(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,}$/.test(values.password)) {
           errors.password = 'Password must contain1 uppercase letter, lowercase letter, special character, 1 number, 8 characters, 30 characters';
         }
       
@@ -41,7 +41,7 @@ const SignUp = () => {
     const formik = useFormik({
         initialValues: {
             username: "",
-            email: emailid,
+            email: emailid === true? "" : emailid,
             password: ""
         },
         validate,
@@ -60,6 +60,7 @@ const SignUp = () => {
             navigateTo("/Signin")
         })
         .catch((error) => {
+            setLoader(false);
             if(error.code === "auth/email-already-in-use"){
                 errors.email = 'Email Id Exist';
             }
@@ -121,7 +122,7 @@ const SignUp = () => {
                             {formik.errors.password ? <div className=" text-red-700 text-sm font-bold w-full">{formik.errors.password}</div> : null}
                         </div>
                         <div className="py-4 flex justify-center items-center">
-                            <button type="submit" style={{ whiteSpace: "nowrap", backgroundColor:"rgb(229,9,20)",width: "100%" }} className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">{loader ? (<span class="loader"></span>):("Sign Up")}</button>
+                            <button type="submit" style={{ whiteSpace: "nowrap", backgroundColor:"rgb(229,9,20)",width: "100%" }} className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">{loader ? (<span className="loader"></span>):("Sign Up")}</button>
                         </div>
                     </form>    
                 </div> 
